@@ -1,16 +1,16 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-LoginPage.propTypes = {
+UserInfoPage.propTypes = {
     
 };
 
-function LoginPage(props) {
+function UserInfoPage(props) {
     return (
         <div>
-            login page
+            user info page
         </div>
     );
 }
 
-export default LoginPage;
+export default UserInfoPage;
