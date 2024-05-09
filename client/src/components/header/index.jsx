@@ -11,6 +11,7 @@ import {
     SmileOutlined,
     FrownOutlined
 } from '@ant-design/icons';
+import { useHistory } from 'react-router-dom/cjs/react-router-dom.min';
 
 HeaderApp.propTypes = {
     
@@ -20,14 +21,19 @@ const { Header } = Layout;
 const { SubMenu } = Menu;
 
 function HeaderApp(props) {
-    const [isLogedIn, setIsLogedIn] = useState(false)
+    const history = useHistory();
+    const [isLogedIn, setIsLogedIn] = useState(true)
 
     const handleLogin = () => {
-        setIsLogedIn(true);
+        // setIsLogedIn(true);
+        history.push('/login');
+        
     }
 
     const handleLogout = () => {
         setIsLogedIn(false);
+        history.push('/home');
+        
     }
     return (
         <Header style={{ background: '#fff' }}>
