@@ -2,6 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { Button, Form, Input, Space, Checkbox, Typography } from 'antd';
 import { useHistory } from 'react-router-dom/cjs/react-router-dom.min';
+import './style.css';
 
 LoginPage.propTypes = {
     
@@ -10,13 +11,13 @@ LoginPage.propTypes = {
 const { Text } = Typography;
 
 const layout = {
-    labelCol: { span: 8 },
-    wrapperCol: { span: 12 },
-  };
+  labelCol: { span: 8 },
+  wrapperCol: { span: 12 },
+};
   
-  const tailLayout = {
-    wrapperCol: { offset: 8, span: 16 },
-  };
+const tailLayout = {
+  wrapperCol: { offset: 8, span: 16 },
+};
 
 function LoginPage(props) {
     const history = useHistory();
@@ -37,40 +38,54 @@ function LoginPage(props) {
     
 
     return (
-        <div>
-            <Form
-      {...layout}
-      form={form}
-      name="control-hooks"
-      onFinish={onFinish}
-      style={{ maxWidth: 600, marginLeft: 'auto', marginRight: 'auto'}}
-    >
-      <Form.Item label="Username" name="username" rules={[{ required: true }]}>
-        <Input />
-      </Form.Item>
-      <Form.Item label="Password" name="password" rules={[{ required: true }]}>
-        <Input.Password placeholder="input password" />
-      </Form.Item>
+      <div className="form-container">
+        <div className="sub-form-container">
+          <Form
+            {...layout}
+            form={form}
+            name="control-hooks"
+            onFinish={onFinish}
+            style={{ maxWidth: 600, marginLeft: "auto", marginRight: "auto" }}
+          >
+            <Form.Item
+              label="Username"
+              name="username"
+              rules={[{ required: true }]}
+            >
+              <Input />
+            </Form.Item>
+            <Form.Item
+              label="Password"
+              name="password"
+              rules={[{ required: true }]}
+            >
+              <Input.Password placeholder="input password" />
+            </Form.Item>
 
-      <Form.Item label="Remember" name="remember" valuePropName="checked">
-          <Checkbox></Checkbox>
-        </Form.Item>
+            <Form.Item label="Remember" name="remember" valuePropName="checked">
+              <Checkbox></Checkbox>
+            </Form.Item>
 
-      <Form.Item
-      {...tailLayout}
-      >
-        <Space>
-          <Button type="primary" htmlType="submit">
-            Login
-          </Button>
-          <Text  type="secondary">Don't have an account yet?</Text>
-        </Space>
-          <Button type="link" htmlType="button" onClick={() => handleRegiterClick()}>
-            <Text underline italic>Register</Text>
-          </Button>
-      </Form.Item>
-    </Form>
+            <Form.Item {...tailLayout}>
+              <Space>
+                <Button type="primary" htmlType="submit">
+                  Login
+                </Button>
+                <Text type="secondary">Don't have an account yet?</Text>
+              </Space>
+              <Button
+                type="link"
+                htmlType="button"
+                onClick={() => handleRegiterClick()}
+              >
+                <Text underline italic>
+                  Register
+                </Text>
+              </Button>
+            </Form.Item>
+          </Form>
         </div>
+      </div>
     );
 }
 

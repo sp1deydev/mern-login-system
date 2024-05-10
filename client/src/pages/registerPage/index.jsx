@@ -2,6 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { Button, Form, Input, Space, Typography } from 'antd';
 import { useHistory } from 'react-router-dom/cjs/react-router-dom.min';
+import './style.css'
 
 RegisterPage.propTypes = {
     
@@ -37,48 +38,70 @@ function RegisterPage(props) {
     
 
     return (
-        <div>
-            <Form
-      {...layout}
-      form={form}
-      name="control-hooks"
-      onFinish={onFinish}
-      style={{ maxWidth: 600, marginLeft: 'auto', marginRight: 'auto'}}
-    >
-      <Form.Item label="Email" name="email" rules={[
-      {
-        required: true,
-        type: "email",
-        message: "The input is not valid E-mail!",
-      },
-    ]}>
-        <Input />
-      </Form.Item>
-      <Form.Item label="Username" name="username" rules={[{ required: true }]}>
-        <Input />
-      </Form.Item>
-      <Form.Item label="Password" name="password" rules={[{ required: true }]}>
-        <Input.Password placeholder="input password" />
-      </Form.Item>
-      <Form.Item label="Confirm" name="confirmPassword" rules={[{ required: true }]}>
-        <Input.Password placeholder="input confirm password" />
-      </Form.Item>
+      <div className='form-container'>
+        <div className='sub-form-container'>
+        <Form
+          {...layout}
+          form={form}
+          name="control-hooks"
+          onFinish={onFinish}
+          style={{ maxWidth: 600}}
+        >
+          <Form.Item
+            label="Email"
+            name="email"
+            rules={[
+              {
+                required: true,
+                type: "email",
+                message: "Input valid Email",
+              },
+            ]}
+          >
+            <Input />
+          </Form.Item>
+          <Form.Item
+            label="Username"
+            name="username"
+            rules={[{ required: true }]}
+          >
+            <Input />
+          </Form.Item>
+          <Form.Item
+            label="Password"
+            name="password"
+            rules={[{ required: true }]}
+          >
+            <Input.Password placeholder="input password" />
+          </Form.Item>
+          <Form.Item
+            label="Confirm"
+            name="confirmPassword"
+            rules={[{ required: true }]}
+          >
+            <Input.Password placeholder="input confirm password" />
+          </Form.Item>
 
-      <Form.Item
-      {...tailLayout}
-      >
-        <Space>
-          <Button type="primary" htmlType="submit">
-            Register
-          </Button>
-          <Text  type="secondary">Have an account?</Text>
-        </Space>
-          <Button type="link" htmlType="button" onClick={() => handleSignInClick()}>
-            <Text underline italic>Sign in</Text>
-          </Button>
-      </Form.Item>
-    </Form>
-        </div>
+          <Form.Item {...tailLayout}>
+            <Space>
+              <Button type="primary" htmlType="submit">
+                Register
+              </Button>
+              <Text type="secondary">Have an account?</Text>
+            </Space>
+            <Button
+              type="link"
+              htmlType="button"
+              onClick={() => handleSignInClick()}
+            >
+              <Text underline italic>
+                Log In
+              </Text>
+            </Button>
+          </Form.Item>
+        </Form>
+      </div>
+      </div>
     );
 }
 
