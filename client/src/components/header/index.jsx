@@ -26,8 +26,15 @@ function HeaderApp(props) {
 
     const handleLogin = () => {
         // setIsLogedIn(true);
-        history.push('/login');
-        
+        history.push('/login');  
+    }
+    const handleRegister = () => {
+        // setIsLogedIn(true);
+        history.push('/register');  
+    }
+    const handleProfile = () => {
+        // setIsLogedIn(true);
+        history.push('/user-info/123');  
     }
 
     const handleLogout = () => {
@@ -51,12 +58,12 @@ function HeaderApp(props) {
                 <SubMenu key="3" title={isLogedIn ? 'Username' : 'Guest'} icon={isLogedIn ? <SmileOutlined /> : <FrownOutlined />} popupOffset={[0, 10]}>
                     {isLogedIn ? 
                     <Fragment>
-                        <Menu.Item key="4" icon={<UserOutlined />}>My Profile</Menu.Item>
+                        <Menu.Item key="4" icon={<UserOutlined />} onClick={handleProfile}>My Profile</Menu.Item>
                         <Menu.Item key="5" icon={<LogoutOutlined />} onClick={handleLogout}>Log Out</Menu.Item>
                     </Fragment> :
                     <Fragment>
                         <Menu.Item key="6" icon={<LoginOutlined />} onClick={handleLogin}>Login</Menu.Item>
-                        <Menu.Item key="8" icon={<UserAddOutlined />}>Register</Menu.Item>
+                        <Menu.Item key="8" icon={<UserAddOutlined />} onClick={handleRegister}>Register</Menu.Item>
                     </Fragment>
                     }
                 </SubMenu>
