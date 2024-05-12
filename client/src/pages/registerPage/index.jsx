@@ -38,69 +38,91 @@ function RegisterPage(props) {
     
 
     return (
-      <div className='form-container'>
-        <div className='sub-form-container'>
-        <Form
-          {...layout}
-          form={form}
-          name="control-hooks"
-          onFinish={onFinish}
-          style={{ maxWidth: 600}}
-        >
-          <Form.Item
-            label="Email"
-            name="email"
-            rules={[
-              {
-                required: true,
-                type: "email",
-                message: "Input valid Email",
-              },
-            ]}
+      <div className="form-container">
+        <div className="sub-form-container">
+          <Form
+            {...layout}
+            form={form}
+            name="control-hooks"
+            onFinish={onFinish}
+            style={{ maxWidth: 600 }}
           >
-            <Input />
-          </Form.Item>
-          <Form.Item
-            label="Username"
-            name="username"
-            rules={[{ required: true }]}
-          >
-            <Input />
-          </Form.Item>
-          <Form.Item
-            label="Password"
-            name="password"
-            rules={[{ required: true }]}
-          >
-            <Input.Password placeholder="input password" />
-          </Form.Item>
-          <Form.Item
-            label="Confirm"
-            name="confirmPassword"
-            rules={[{ required: true }]}
-          >
-            <Input.Password placeholder="input confirm password" />
-          </Form.Item>
 
-          <Form.Item {...tailLayout}>
-            <Space>
-              <Button type="primary" htmlType="submit">
-                Register
-              </Button>
-              <Text type="secondary">Have an account?</Text>
-            </Space>
-            <Button
-              type="link"
-              htmlType="button"
-              onClick={() => handleSignInClick()}
+            <Form.Item label="Full Name" style={{ marginBottom: 0 }} required>
+              <Form.Item
+                name="firstname"
+                rules={[{ required: true }]}
+                style={{ display: "inline-block", width: "calc(50% - 8px)" }}
+              >
+                <Input placeholder="First Name" />
+              </Form.Item>
+              <Form.Item
+                name="lastname"
+                rules={[{ required: true }]}
+                style={{
+                  display: "inline-block",
+                  width: "calc(50% - 8px)",
+                  margin: "0px 0px 0px 12px",
+                }}
+              >
+                <Input placeholder="Last Name" />
+              </Form.Item>
+            </Form.Item>
+
+            <Form.Item
+              label="Email"
+              name="email"
+              rules={[
+                {
+                  required: true,
+                  type: "email",
+                  message: "Input valid Email",
+                },
+              ]}
             >
-              <Text underline italic>
-                Log In
-              </Text>
-            </Button>
-          </Form.Item>
-        </Form>
-      </div>
+              <Input placeholder="Email"/>
+            </Form.Item>
+            <Form.Item
+              label="Username"
+              name="username"
+              rules={[{ required: true }]}
+            >
+              <Input placeholder="Username"/>
+            </Form.Item>
+            <Form.Item
+              label="Password"
+              name="password"
+              rules={[{ required: true, min: 6 }]}
+            >
+              <Input.Password placeholder="Password" />
+            </Form.Item>
+            <Form.Item
+              label="Confirm"
+              name="confirmPassword"
+              rules={[{ required: true, min: 6 }]}
+            >
+              <Input.Password placeholder="Confirm Password" />
+            </Form.Item>
+
+            <Form.Item {...tailLayout}>
+              <Space>
+                <Button type="primary" htmlType="submit">
+                  Register
+                </Button>
+                <Text type="secondary">Have an account?</Text>
+              </Space>
+              <Button
+                type="link"
+                htmlType="button"
+                onClick={() => handleSignInClick()}
+              >
+                <Text underline italic>
+                  Log In
+                </Text>
+              </Button>
+            </Form.Item>
+          </Form>
+        </div>
       </div>
     );
 }

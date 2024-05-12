@@ -20,11 +20,25 @@ function UserInfoPage(props) {
             description="Role: Admin"
           />
           <List>
-            <List.Item>
+            <List.Item
+              actions={[<a key="list-loadmore-edit">Edit</a>, <a key="list-loadmore-more">More</a>]}
+            >
+              <Typography.Text>First Name: </Typography.Text>
+            </List.Item>
+            <List.Item
+              actions={[<a key="list-loadmore-edit">Edit</a>, <a key="list-loadmore-more">More</a>]}
+            >
+              <Typography.Text>Last Name: </Typography.Text>
+            </List.Item>
+            <List.Item
+              actions={[<a key="list-loadmore-edit">Edit</a>, <a key="list-loadmore-more">More</a>]}
+            >
               <Typography.Text>Email: </Typography.Text>
             </List.Item>
-            <List.Item>
-              <Typography.Text>Location: </Typography.Text>
+            <List.Item
+              actions={[<a key="list-loadmore-edit">Edit</a>, <a key="list-loadmore-more">More</a>]}
+            >
+              <Typography.Text>Password: </Typography.Text>
             </List.Item>
             {/* Add more user info details as needed */}
           </List>

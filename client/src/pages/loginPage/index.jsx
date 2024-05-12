@@ -8,7 +8,7 @@ LoginPage.propTypes = {
     
 };
 
-const { Text } = Typography;
+const { Text, Link } = Typography;
 
 const layout = {
   labelCol: { span: 8 },
@@ -52,18 +52,40 @@ function LoginPage(props) {
               name="username"
               rules={[{ required: true }]}
             >
-              <Input />
+              <Input placeholder="Username" />
             </Form.Item>
             <Form.Item
               label="Password"
               name="password"
-              rules={[{ required: true }]}
+              rules={[{ required: true, min: 6 }]}
             >
-              <Input.Password placeholder="input password" />
+              <Input.Password placeholder="Password" />
             </Form.Item>
 
-            <Form.Item label="Remember" name="remember" valuePropName="checked">
-              <Checkbox></Checkbox>
+            <Form.Item
+              style={{
+                marginLeft: "33%",
+                width: "700px",
+                marginBottom: "-8px",
+              }}
+            >
+              <Form.Item
+                name="remember"
+                valuePropName="checked"
+                style={{ display: "inline-block", width: "calc(50% - 8px)" }}
+              >
+                <Checkbox>Remember me</Checkbox>
+              </Form.Item>
+              <Link
+                style={{
+                  display: "inline-block",
+                  width: "calc(50% - 8px)",
+                  lineHeight: "32px",
+                  margin: "0px 0px 0px 8px",
+                }}
+              >
+                Forgot Password?
+              </Link>
             </Form.Item>
 
             <Form.Item {...tailLayout}>
