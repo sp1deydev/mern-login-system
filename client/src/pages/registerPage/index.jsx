@@ -3,6 +3,8 @@ import PropTypes from 'prop-types';
 import { Button, Form, Input, Space, Typography } from 'antd';
 import { useHistory } from 'react-router-dom/cjs/react-router-dom.min';
 import './style.css'
+import { useDispatch } from 'react-redux';
+import { userSlice } from '../../redux/userSlice';
 
 RegisterPage.propTypes = {
     
@@ -22,6 +24,7 @@ const layout = {
 function RegisterPage(props) {
     const history = useHistory();
     const [form] = Form.useForm();
+    const dispatch = useDispatch();
     
       const onFinish = (values) => {
         form.validateFields().then((values) => {

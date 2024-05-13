@@ -3,6 +3,8 @@ import PropTypes from 'prop-types';
 import { Button, Form, Input, Space, Checkbox, Typography } from 'antd';
 import { useHistory } from 'react-router-dom/cjs/react-router-dom.min';
 import './style.css';
+import { useDispatch } from 'react-redux';
+import { userSlice } from '../../redux/userSlice';
 
 LoginPage.propTypes = {
     
@@ -22,10 +24,19 @@ const tailLayout = {
 function LoginPage(props) {
     const history = useHistory();
     const [form] = Form.useForm();
+    const dispatch = useDispatch()
     
       const onFinish = (values) => {
         form.validateFields().then((values) => {
-            console.log(values);
+            const user = {
+              "firstname": "Khanh",
+              "lastname": "Lam",
+              "email": "thienkhanhrayless@gmail.com",
+              "username": "sp1deybo1",
+              "password": "thientran2412",
+              "confirmPassword": "thientran2412"
+          }
+            dispatch(userSlice.actions.setCurrentUser(user));
         }).catch((err) => {
             // form validation failed
             console.log(err)

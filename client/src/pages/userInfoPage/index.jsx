@@ -2,12 +2,15 @@ import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import { Avatar, Typography, List, Card } from 'antd';
 import './style.css'
+import { useSelector } from 'react-redux';
 
 UserInfoPage.propTypes = {
     
 };
 
 function UserInfoPage(props) {
+  const currentUser = useSelector((state) => state.user.currentUser)
+  console.log(currentUser)
   const listUserInfoElm = [
     "First Name", "Last Name", "Email", "Password",
   ]
