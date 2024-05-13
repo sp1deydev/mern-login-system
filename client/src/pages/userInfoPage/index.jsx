@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import { Avatar, Typography, List, Card } from 'antd';
 import './style.css'
@@ -8,44 +8,43 @@ UserInfoPage.propTypes = {
 };
 
 function UserInfoPage(props) {
+  const listUserInfoElm = [
+    "First Name", "Last Name", "Email", "Password",
+  ]
+  const userInforElm = listUserInfoElm.map(elm => {
     return (
-      <div className='card-container'>
-      <div className='sub-card-container'>
+      <List.Item
+              actions={[
+                <a key="list-loadmore-edit">Edit</a>,
+                <a key="list-loadmore-more">More</a>,
+              ]}
+            >
+              <Typography.Text>{elm}: </Typography.Text>
+            </List.Item>
+    )
+  })
+  // const [editFirstName] 
+
+
+
+  return (
+    <div className="card-container">
+      <div className="sub-card-container">
         <Card>
           <Card.Meta
             avatar={
               <Avatar src="https://www.366icons.com/media/01/profile-avatar-account-icon-16699.png" />
             }
             title="peter2312"
-            description="Role: Admin"
+            description="Role: Administrator"
           />
           <List>
-            <List.Item
-              actions={[<a key="list-loadmore-edit">Edit</a>, <a key="list-loadmore-more">More</a>]}
-            >
-              <Typography.Text>First Name: </Typography.Text>
-            </List.Item>
-            <List.Item
-              actions={[<a key="list-loadmore-edit">Edit</a>, <a key="list-loadmore-more">More</a>]}
-            >
-              <Typography.Text>Last Name: </Typography.Text>
-            </List.Item>
-            <List.Item
-              actions={[<a key="list-loadmore-edit">Edit</a>, <a key="list-loadmore-more">More</a>]}
-            >
-              <Typography.Text>Email: </Typography.Text>
-            </List.Item>
-            <List.Item
-              actions={[<a key="list-loadmore-edit">Edit</a>, <a key="list-loadmore-more">More</a>]}
-            >
-              <Typography.Text>Password: </Typography.Text>
-            </List.Item>
-            {/* Add more user info details as needed */}
+            {userInforElm}
           </List>
         </Card>
       </div>
-      </div>
-    );
+    </div>
+  );
 }
 
 export default UserInfoPage;
