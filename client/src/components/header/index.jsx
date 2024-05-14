@@ -12,6 +12,8 @@ import {
     FrownOutlined
 } from '@ant-design/icons';
 import { useHistory } from 'react-router-dom/cjs/react-router-dom.min';
+import { useDispatch, useSelector } from 'react-redux';
+import { userSlice } from '../../redux/userSlice';
 
 HeaderApp.propTypes = {
     
@@ -21,24 +23,21 @@ const { Header } = Layout;
 const { SubMenu } = Menu;
 
 function HeaderApp(props) {
+    const currentUser = useSelector((state) => state.user.currentUser);
+    const dispatch = useDispatch();
     const history = useHistory();
-    const [isLogedIn, setIsLogedIn] = useState(true)
 
     const handleLogin = () => {
-        // setIsLogedIn(true);
         history.push('/login');  
     }
     const handleRegister = () => {
-        // setIsLogedIn(true);
         history.push('/register');  
     }
     const handleProfile = () => {
-        // setIsLogedIn(true);
         history.push('/user-info/123');  
     }
-
     const handleLogout = () => {
-        setIsLogedIn(false);
+        dispatch(userSlice.actions.removeCurrentUser());
         history.push('/home');
         
     }
@@ -55,15 +54,15 @@ function HeaderApp(props) {
                 <Menu.Item key="1" icon={<HomeOutlined />}>Home</Menu.Item>
                 <Menu.Item key="2" icon={<InfoCircleOutlined />}>About</Menu.Item>
                 {/* user header */}
-                <SubMenu key="3" title={isLogedIn ? 'Username' : 'Guest'} icon={isLogedIn ? <SmileOutlined /> : <FrownOutlined />} popupOffset={[0, 10]}>
-                    {isLogedIn ? 
+                <SubMenu key="3" title={currentUser ? 'Username' : 'Guest'} icon={currentUser ? <SmileOutlined /> : <FrownOutlined />} popupOffset={[0, 10]}>
+                    {currentUser ? 
                     <Fragment>
                         <Menu.Item key="4" icon={<UserOutlined />} onClick={handleProfile}>My Profile</Menu.Item>
                         <Menu.Item key="5" icon={<LogoutOutlined />} onClick={handleLogout}>Log Out</Menu.Item>
                     </Fragment> :
                     <Fragment>
                         <Menu.Item key="6" icon={<LoginOutlined />} onClick={handleLogin}>Login</Menu.Item>
-                        <Menu.Item key="8" icon={<UserAddOutlined />} onClick={handleRegister}>Register</Menu.Item>
+                        <Menu.Item key="7" icon={<UserAddOutlined />} onClick={handleRegister}>Register</Menu.Item>
                     </Fragment>
                     }
                 </SubMenu>

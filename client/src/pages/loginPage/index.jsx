@@ -34,10 +34,10 @@ function LoginPage(props) {
               "email": "thienkhanhrayless@gmail.com",
               "username": "sp1deybo1",
               "password": "thientran2412",
-              "confirmPassword": "thientran2412"
           }
             dispatch(userSlice.actions.setCurrentUser(user));
-        }).catch((err) => {
+            history.push('/home')
+      }).catch((err) => {
             // form validation failed
             console.log(err)
         })

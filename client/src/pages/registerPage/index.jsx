@@ -99,13 +99,6 @@ function RegisterPage(props) {
             >
               <Input.Password placeholder="Password" />
             </Form.Item>
-            <Form.Item
-              label="Confirm"
-              name="confirmPassword"
-              rules={[{ required: true, min: 6 }]}
-            >
-              <Input.Password placeholder="Confirm Password" />
-            </Form.Item>
 
             <Form.Item {...tailLayout}>
               <Space>
