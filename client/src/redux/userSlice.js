@@ -4,7 +4,13 @@ export const userSlice = createSlice({
     name: 'user',
     initialState: {
         isLoading: false,
-        currentUser: null,
+        currentUser: {
+            "firstname": "test",
+            "lastname": "test",
+            "email": "thienkhanhrayless@gmail.com",
+            "username": "test",
+            "password": "test",
+        },
     },
     reducers: {
         setIsLoading: (state, action) => {
@@ -15,6 +21,9 @@ export const userSlice = createSlice({
         },
         removeCurrentUser: (state, action) => {
             state.currentUser = null
-        }
+        },
+        editUser: (state, action) => {
+            state.currentUser = action.payload
+        },
     },
 })

@@ -1,21 +1,66 @@
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
-import { Avatar, Typography, List, Card } from 'antd';
+import { Avatar, Typography, List, Card, Input, message } from 'antd';
 import './style.css'
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
+import { userSlice } from '../../redux/userSlice';
 
 UserInfoPage.propTypes = {
     
 };
 
 function UserInfoPage(props) {
+  const dispatch = useDispatch();
+  const [messageApi, contextHolder] = message.useMessage();
   const currentUser = useSelector((state) => state.user.currentUser) || {};
-  console.log(currentUser);
   const [editElement, setEditElement] = useState();
+  const [editValue, setEditValue] = useState();
+
+  const handEditFormChange = (e) => {
+    setEditValue(e.target.value)  
+  }
+  const handleCancelEdit = () => {
+    setEditValue()
+    setEditElement();
+  }
+  const handleUpdate = () => {
+    if(!editValue) {
+      messageApi.open({
+        type: 'error',
+        content: 'Please enter value!',
+        duration: 2,
+      });
+      return;
+    }
+      const updateUser = {...currentUser}
+      updateUser[editElement] = editValue;
+      console.log(updateUser)
+      dispatch(userSlice.actions.editUser(updateUser));
+      setEditValue()
+      setEditElement();
+  }
+  const handleEditFirstname = () => {
+    setEditValue(currentUser.firstname)
+    setEditElement("firstname");
+  }
+  const handleEditLastName = () => {
+    setEditValue(currentUser.lastname)
+    setEditElement("lastname");
+  }
+  const handleEditEmail = () => { 
+    setEditValue(currentUser.email)
+    setEditElement("email");
+  }
+  const handleEditPassword = () => {
+    setEditValue("")
+    setEditElement("password");
+  }
+
 
   return (
     <div className="card-container">
       <div className="sub-card-container">
+        {contextHolder} {/* message validate form */}
         <Card>
           <Card.Meta
             avatar={
@@ -26,36 +71,139 @@ function UserInfoPage(props) {
           />
           <List>
             <List.Item
-              actions={[
-                <a key="list-loadmore-edit">Edit</a>,
-                <a key="list-loadmore-more">More</a>,
-              ]}
+              actions={
+                editElement === "firstname"
+                  ? [
+                      <a key="list-loadmore-edit" onClick={handleCancelEdit}>
+                        Cancel
+                      </a>,
+                      <a key="list-loadmore-edit" onClick={handleUpdate}>
+                        Update
+                      </a>,
+                    ]
+                  : [
+                      <a key="list-loadmore-edit" onClick={handleEditFirstname}>
+                        Edit
+                      </a>,
+                    ]
+              }
             >
-              <Typography.Text>First Name: {currentUser.firstname}</Typography.Text>
+              {editElement === "firstname" ? (
+                <Input
+                  placeholder="Enter value"
+                  name="title"
+                  value={editValue}
+                  onChange={(event) => handEditFormChange(event)}
+                  variant="borderless"
+                  autoFocus
+                />
+              ) : (
+                <Typography.Text>
+                  <i>First Name:</i> {currentUser.firstname}
+                </Typography.Text>
+              )}
             </List.Item>
+
             <List.Item
-              actions={[
-                <a key="list-loadmore-edit">Edit</a>,
-                <a key="list-loadmore-more">More</a>,
-              ]}
+              actions={
+                editElement === "lastname"
+                  ? [
+                      <a key="list-loadmore-edit" onClick={handleCancelEdit}>
+                        Cancel
+                      </a>,
+                      <a key="list-loadmore-edit" onClick={handleUpdate}>
+                        Update
+                      </a>,
+                    ]
+                  : [
+                      <a key="list-loadmore-edit" onClick={handleEditLastName}>
+                        Edit
+                      </a>,
+                    ]
+              }
             >
-              <Typography.Text>Last Name: {currentUser.lastname}</Typography.Text>
+              {editElement === "lastname" ? (
+                <Input
+                  placeholder="Enter value"
+                  name="title"
+                  value={editValue}
+                  onChange={(event) => handEditFormChange(event)}
+                  variant="borderless"
+                  autoFocus
+                />
+              ) : (
+                <Typography.Text>
+                  <i>Last Name:</i> {currentUser.lastname}
+                </Typography.Text>
+              )}
             </List.Item>
+
             <List.Item
-              actions={[
-                <a key="list-loadmore-edit">Edit</a>,
-                <a key="list-loadmore-more">More</a>,
-              ]}
+              actions={
+                editElement === "email"
+                  ? [
+                      <a key="list-loadmore-edit" onClick={handleCancelEdit}>
+                        Cancel
+                      </a>,
+                      <a key="list-loadmore-edit" onClick={handleUpdate}>
+                        Update
+                      </a>,
+                    ]
+                  : [
+                      <a key="list-loadmore-edit" onClick={handleEditEmail}>
+                        Edit
+                      </a>,
+                    ]
+              }
             >
-              <Typography.Text>Email: {currentUser.email}</Typography.Text>
+              {editElement === "email" ? (
+                <Input
+                  placeholder="Enter value"
+                  name="title"
+                  value={editValue}
+                  onChange={(event) => handEditFormChange(event)}
+                  variant="borderless"
+                  autoFocus
+                />
+              ) : (
+                <Typography.Text>
+                  <i>Email:</i> {currentUser.email}
+                </Typography.Text>
+              )}
             </List.Item>
+
             <List.Item
-              actions={[
-                <a key="list-loadmore-edit">Edit</a>,
-                <a key="list-loadmore-more">More</a>,
-              ]}
+              actions={
+                editElement === "password"
+                  ? [
+                      <a key="list-loadmore-edit" onClick={handleCancelEdit}>
+                        Cancel
+                      </a>,
+                      <a key="list-loadmore-edit" onClick={handleUpdate}>
+                        Update
+                      </a>,
+                    ]
+                  : [
+                      <a key="list-loadmore-edit" onClick={handleEditPassword}>
+                        Edit
+                      </a>,
+                    ]
+              }
             >
-              <Typography.Text>Password: {currentUser.password}</Typography.Text>
+              {editElement === "password" ? (
+                <Input
+                  placeholder="Enter value"
+                  name="title"
+                  value={editValue}
+                  onChange={(event) => handEditFormChange(event)}
+                  variant="borderless"
+                  autoFocus
+                />
+              ) : (
+                <Typography.Text>
+                  <i>Password:</i> {currentUser.password}
+                </Typography.Text>
+              )}
             </List.Item>
           </List>
         </Card>
