@@ -4,6 +4,7 @@ import { Avatar, Typography, List, Card, Input, message } from 'antd';
 import './style.css'
 import { useDispatch, useSelector } from 'react-redux';
 import { userSlice } from '../../redux/userSlice';
+import { validateEmail } from '../../helpers/emailRegEx';
 
 UserInfoPage.propTypes = {
     
@@ -32,9 +33,19 @@ function UserInfoPage(props) {
       });
       return;
     }
+    if(editElement === "email") {
+      if(!validateEmail(editValue)) {
+        messageApi.open({
+          type: 'error',
+          content: 'Please enter valid email!',
+          duration: 2,
+        });
+        return;
+      }
+    }
       const updateUser = {...currentUser}
       updateUser[editElement] = editValue;
-      console.log(updateUser)
+      // console.log(updateUser)
       dispatch(userSlice.actions.editUser(updateUser));
       setEditValue()
       setEditElement();
