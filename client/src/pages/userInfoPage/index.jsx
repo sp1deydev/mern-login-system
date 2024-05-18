@@ -33,19 +33,17 @@ function UserInfoPage(props) {
       });
       return;
     }
-    if(editElement === "email") {
-      if(!validateEmail(editValue)) {
-        messageApi.open({
-          type: 'error',
-          content: 'Please enter valid email!',
-          duration: 2,
-        });
-        return;
-      }
+    //validate email address
+    if(editElement === "email" && !validateEmail(editValue)) {
+      messageApi.open({
+        type: 'error',
+        content: 'Please enter valid email!',
+        duration: 2,
+      });
+      return;
     }
       const updateUser = {...currentUser}
       updateUser[editElement] = editValue;
-      // console.log(updateUser)
       dispatch(userSlice.actions.editUser(updateUser));
       setEditValue()
       setEditElement();
