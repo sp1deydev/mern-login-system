@@ -9,40 +9,51 @@ import {
     LoginOutlined,
     UserAddOutlined,
     SmileOutlined,
-    FrownOutlined
+    FrownOutlined,
+    ShoppingCartOutlined,
 } from '@ant-design/icons';
-import { useHistory } from 'react-router-dom/cjs/react-router-dom.min';
 import { useDispatch, useSelector } from 'react-redux';
-import { userSlice } from '../../redux/userSlice';
+import { userSlice } from '../redux/userSlice';
+import { useNavigate } from 'react-router-dom';
 
-HeaderApp.propTypes = {
+HeaderBar.propTypes = {
     
 };
 
 const { Header } = Layout;
 const { SubMenu } = Menu;
 
-function HeaderApp(props) {
-    const currentUser = useSelector((state) => state.user.currentUser);
+function HeaderBar(props) {
+    const currentUser = useSelector((state) => state.user.currentUser) || {};
+    const isEmpty =  Object.keys(currentUser).length === 0;
     const dispatch = useDispatch();
-    const history = useHistory();
+    const navigate = useNavigate();
 
+    const handleHome = () => {
+       navigate('/home');  
+    }
+    const handleAbout = () => {
+       navigate('/about');  
+    }
+    const handleCart = () => {
+       navigate('/cart');  
+    }
     const handleLogin = () => {
-        history.push('/login');  
+       navigate('/login');  
     }
     const handleRegister = () => {
-        history.push('/register');  
+       navigate('/register');  
     }
     const handleProfile = () => {
-        history.push('/user-info/123');  
+       navigate('/userInfo/123');  
     }
     const handleLogout = () => {
         dispatch(userSlice.actions.removeCurrentUser());
-        history.push('/home');
+       navigate('/home');
         
     }
     return (
-        <Header style={{ background: '#fff' }}>
+        <Header style={{ background: '#fff', marginBottom: "24px" }}>
             <div className="logo" style={{ width: '120px', height: '31px', background: '#2412', margin: '16px 28px 16px 0', float: 'left' }} />
 
             <Menu 
@@ -51,11 +62,12 @@ function HeaderApp(props) {
                 defaultSelectedKeys={['1']} 
                 style={{ display: 'flex', justifyContent: 'flex-end', alignItems: 'center' }} 
             >
-                <Menu.Item key="1" icon={<HomeOutlined />}>Home</Menu.Item>
-                <Menu.Item key="2" icon={<InfoCircleOutlined />}>About</Menu.Item>
+                <Menu.Item key="1" icon={<HomeOutlined />}  onClick={handleHome}>Home</Menu.Item>
+                <Menu.Item key="2" icon={<InfoCircleOutlined />}  onClick={handleAbout}>About</Menu.Item>
+                <Menu.Item key="2" icon={<ShoppingCartOutlined />}  onClick={handleCart}>Cart</Menu.Item>
                 {/* user header */}
-                <SubMenu key="3" title={currentUser ? 'Username' : 'Guest'} icon={currentUser ? <SmileOutlined /> : <FrownOutlined />} popupOffset={[0, 10]}>
-                    {currentUser ? 
+                <SubMenu key="3" title={currentUser && !isEmpty ? 'Username' : 'Guest'} icon={currentUser && !isEmpty ? <SmileOutlined /> : <FrownOutlined />} popupOffset={[0, 10]}>
+                    {currentUser && !isEmpty ? 
                     <Fragment>
                         <Menu.Item key="4" icon={<UserOutlined />} onClick={handleProfile}>My Profile</Menu.Item>
                         <Menu.Item key="5" icon={<LogoutOutlined />} onClick={handleLogout}>Log Out</Menu.Item>
@@ -71,4 +83,4 @@ function HeaderApp(props) {
     );
 }
 
-export default HeaderApp;
+export default HeaderBar;

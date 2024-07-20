@@ -1,22 +1,21 @@
-import { Route, Switch, Redirect } from 'react-router-dom/cjs/react-router-dom.min';
+import React from 'react';
+import logo from './logo.svg';
 import './App.css';
-import LoginPage from './pages/loginPage';
-import RegisterPage from './pages/registerPage';
-import UserInfoPage from './pages/userInfoPage';
-import HeaderApp from './components/header';
+import { useSelector } from 'react-redux';
+import Routers from './routers/Routers';
+import { BrowserRouter as Router } from 'react-router-dom';
+import HeaderBar from './components/header';
+
 
 function App() {
+  
   return (
-    <div className="">
-      <HeaderApp/>
-      <Switch>
-        <Redirect from='/' to='/home' exact/>
-        <Route path='/login' component={LoginPage} />
-        <Route path='/register' component={RegisterPage} />
-        {/* <Route path='/user-info' component={RegisterPage} exact/> */}
-        <Route path='/user-info/:userId' component={UserInfoPage} />
-      </Switch>
-    </div>
+    <Router>
+      <div>
+        <HeaderBar/>
+        <Routers />
+      </div>
+    </Router>
   );
 }
 

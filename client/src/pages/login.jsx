@@ -1,12 +1,11 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { Button, Form, Input, Space, Checkbox, Typography } from 'antd';
-import { useHistory } from 'react-router-dom/cjs/react-router-dom.min';
-import './style.css';
-import { useDispatch } from 'react-redux';
-import { userSlice } from '../../redux/userSlice';
+import { useDispatch, useSelector } from 'react-redux';
+import { userSlice } from '../redux/userSlice';
+import { useNavigate, useSearchParams } from 'react-router-dom';
 
-LoginPage.propTypes = {
+Login.propTypes = {
     
 };
 
@@ -21,10 +20,25 @@ const tailLayout = {
   wrapperCol: { offset: 8, span: 16 },
 };
 
-function LoginPage(props) {
-    const history = useHistory();
+
+function Login(props) {
+    const navigate = useNavigate();
+    const currentUser = useSelector((state)=> state.user.currentUser) || {};
     const [form] = Form.useForm();
     const dispatch = useDispatch()
+
+    const [searchParams, setSearchParams] = useSearchParams();
+
+  useEffect(() => {
+    if (!Object.keys(currentUser).length === 0 && searchParams.get('redirect')) {
+      console.log('abc')
+      navigate(searchParams.get('redirect'));
+    }
+
+    if (!Object.keys(currentUser).length === 0 && !searchParams.get('redirect')) {
+      navigate('/');
+    }
+  }, [currentUser, searchParams, navigate]);
     
       const onFinish = (values) => {
         form.validateFields().then((values) => {
@@ -36,7 +50,11 @@ function LoginPage(props) {
               "password": "thientran2412",
           }
             dispatch(userSlice.actions.setCurrentUser(user));
-            history.push('/home')
+            if (searchParams.get('redirect')) {
+              navigate(searchParams.get('redirect'));
+            } else {
+              navigate('/');
+            }
       }).catch((err) => {
             // form validation failed
             console.log(err)
@@ -44,7 +62,7 @@ function LoginPage(props) {
       };
 
       const handleRegiterClick = () => {
-        history.push('/register')
+        navigate('/register')
       }
     
 
@@ -122,4 +140,4 @@ function LoginPage(props) {
     );
 }
 
-export default LoginPage;
+export default Login;

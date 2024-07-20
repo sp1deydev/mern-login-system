@@ -1,16 +1,15 @@
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import { Avatar, Typography, List, Card, Input, message } from 'antd';
-import './style.css'
 import { useDispatch, useSelector } from 'react-redux';
-import { userSlice } from '../../redux/userSlice';
-import { validateEmail } from '../../helpers/emailRegEx';
+import { userSlice } from '../redux/userSlice';
+import { validateEmail } from '../helpers/emailRegEx';
 
-UserInfoPage.propTypes = {
+UserInfo.propTypes = {
     
 };
 
-function UserInfoPage(props) {
+function UserInfo(props) {
   const dispatch = useDispatch();
   const [messageApi, contextHolder] = message.useMessage();
   const currentUser = useSelector((state) => state.user.currentUser) || {};
@@ -221,4 +220,4 @@ function UserInfoPage(props) {
   );
 }
 
-export default UserInfoPage;
+export default UserInfo;

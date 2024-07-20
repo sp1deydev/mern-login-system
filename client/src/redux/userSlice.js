@@ -5,11 +5,11 @@ export const userSlice = createSlice({
     initialState: {
         isLoading: false,
         currentUser: {
-            "firstname": "test",
-            "lastname": "test",
-            "email": "thienkhanhrayless@gmail.com",
-            "username": "test",
-            "password": "test",
+            // "firstname": "test",
+            // "lastname": "test",
+            // "email": "thienkhanhrayless@gmail.com",
+            // "username": "test",
+            // "password": "test",
         },
     },
     reducers: {
