@@ -43,6 +43,7 @@ function Login(props) {
       const onFinish = (values) => {
         form.validateFields().then((values) => {
             const user = {
+              "id": "0x345",
               "firstname": "Khanh",
               "lastname": "Lam",
               "email": "thienkhanhrayless@gmail.com",

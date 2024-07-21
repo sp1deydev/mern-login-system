@@ -45,7 +45,7 @@ function HeaderBar(props) {
        navigate('/register');  
     }
     const handleProfile = () => {
-       navigate('/userInfo/123');  
+       navigate(`/userInfo/${currentUser.id}`);  
     }
     const handleLogout = () => {
         dispatch(userSlice.actions.removeCurrentUser());
