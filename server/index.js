@@ -12,7 +12,7 @@ const cors = require('cors');
 const MongoDBSession = require('connect-mongodb-session')(session);
 
 //config port
-const PORT = process.env.PORT || 3000;
+const PORT = process.env.PORT || 3001;
 
 //connect to database
 const mongodbURI = MongoDB_URI.URI
@@ -60,3 +60,4 @@ app.get('/', (req, res) => {
 
 
 app.listen(PORT);
+console.log(`Listening on port ${PORT}`);

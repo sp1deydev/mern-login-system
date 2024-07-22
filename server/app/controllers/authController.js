@@ -3,7 +3,7 @@ const User = require('../models/user');
 const bcrypt = require("bcrypt");
 const jwt = require('jsonwebtoken');
 const _const = require('../config/constants');
-
+const mongoose = require('mongoose');
 
 
 const createToken = (id) => {
@@ -16,9 +16,13 @@ const createToken = (id) => {
 const authController = {
     signup: (req, res, next) => {
         const salt = bcrypt.genSaltSync(10);
+        console.log(req.body);
         const newUser = {
           username: req.body.username,
-          password: bcrypt.hashSync(req.body.password, salt)
+          password: bcrypt.hashSync(req.body.password, salt),
+          firstname: req.body.firstname,
+          lastname: req.body.lastname,
+          email: req.body.email,
         };
         User.findOne({username: req.body.username})
             .then(result => {
@@ -29,8 +33,8 @@ const authController = {
                     const user = new User(newUser);
                     user.save() 
                         .then(result => {
-                            // const token = createToken(result._id);
-                            // res.cookie('jwt_token', token, {httpOnly: true, maxAge: 3000 * 24 * 60 * 60});
+                            const token = createToken(result._id);
+                            res.cookie('jwt_token', token, {httpOnly: true, maxAge: 3000 * 24 * 60 * 60});
                             res.status(200).json(token)
                         })
                         .catch(err => res.status(500).json(err))
@@ -48,8 +52,7 @@ const authController = {
                 if (result) {
                     const auth = bcrypt.compareSync(user.password, result.password)
                     if(auth) {
-                        const token = createToken(user._id);
-                        // console.log(token);
+                        const token = createToken(result._id);
                         res.header('Authorization', token);
                         res.cookie('jwt_token', token);
                         req.session.isAuth = true;
@@ -71,7 +74,19 @@ const authController = {
             console.log(err);
         })
         res.json({message: 'logout'});
-    }
+    },
+    getUser: (req, res, next) => {
+        User.findOne({_id: new mongoose.Types.ObjectId(req.userId)})
+        .then(result => {
+            if (result) {
+                    res.status(200).json({result, status: true });
+                }
+            else {
+                res.json({message: "id notfound"})
+            }
+        })
+        .catch(err => console.error(err))
+    },
 }
 
 module.exports = authController;
