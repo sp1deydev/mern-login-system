@@ -31,7 +31,6 @@ function Login(props) {
 
   useEffect(() => {
     if (!Object.keys(currentUser).length === 0 && searchParams.get('redirect')) {
-      console.log('abc')
       navigate(searchParams.get('redirect'));
     }
 
