@@ -4,6 +4,10 @@ import { Button, Form, Input, Space, Checkbox, Typography } from 'antd';
 import { useDispatch, useSelector } from 'react-redux';
 import { userSlice } from '../redux/userSlice';
 import { useNavigate, useSearchParams } from 'react-router-dom';
+import { toast } from 'react-toastify';
+import { authApi } from '../api/authApi';
+import { handleLocalStorage } from '../utils/handleLocalStorage';
+import handleAuthToken from '../utils/handleAuthToken';
 
 Login.propTypes = {
     
@@ -40,16 +44,44 @@ function Login(props) {
   }, [currentUser, searchParams, navigate]);
     
       const onFinish = (values) => {
-        form.validateFields().then((values) => {
-            const user = {
-              "id": "0x345",
-              "firstname": "Khanh",
-              "lastname": "Lam",
-              "email": "thienkhanhrayless@gmail.com",
-              "username": "sp1deybo1",
-              "password": "thientran2412",
+        form.validateFields().then(async (values) => {
+          try {
+            const res = await authApi.login(values);
+            if (!res.data.success) {
+              toast.error(res.data.message);
+              //reset password
+              return;
+            }
+      
+            const { user } = res.data;
+            const currentUser = {
+              id: user._id,
+              username: user.username,
+              firstname: user.firstname,
+              lastname: user.lastname,
+              email: user.email,
+              createdAt: user.createdAt,
+            };
+            dispatch(userSlice.actions.setCurrentUser(currentUser));
+            handleAuthToken(res.data.token);
+            if(values.remember) {
+              handleLocalStorage.set('access_token', res.data.token);
+            }
+            toast.success(res.data.message);
+      
+            if (searchParams.get('redirect')) {
+              navigate(searchParams.get('redirect'));
+            } else {
+              navigate('/');
+            }
+          } catch (error) {
+            const errorMessage =
+              error.response.data?.message ||
+              'Có lỗi xảy ra phía máy chủ, vui lòng thử lại!';
+            toast.error(errorMessage);
+            //reset password
           }
-            dispatch(userSlice.actions.setCurrentUser(user));
+            //
             if (searchParams.get('redirect')) {
               navigate(searchParams.get('redirect'));
             } else {

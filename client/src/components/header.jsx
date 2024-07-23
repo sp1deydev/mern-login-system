@@ -15,6 +15,8 @@ import {
 import { useDispatch, useSelector } from 'react-redux';
 import { userSlice } from '../redux/userSlice';
 import { useNavigate } from 'react-router-dom';
+import { handleLocalStorage } from '../utils/handleLocalStorage';
+import handleAuthToken from '../utils/handleAuthToken';
 
 HeaderBar.propTypes = {
     
@@ -48,9 +50,10 @@ function HeaderBar(props) {
        navigate(`/userInfo/${currentUser.id}`);  
     }
     const handleLogout = () => {
+        handleAuthToken();
+        handleLocalStorage.remove('access_token');
         dispatch(userSlice.actions.removeCurrentUser());
-       navigate('/home');
-        
+        navigate('/home');
     }
     return (
         <Header style={{ background: '#fff', marginBottom: "24px" }}>

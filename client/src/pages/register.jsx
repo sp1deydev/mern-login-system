@@ -4,6 +4,8 @@ import { Button, Form, Input, Space, Typography } from 'antd';
 import { useDispatch } from 'react-redux';
 import { userSlice } from '../redux/userSlice';
 import { useNavigate } from 'react-router-dom';
+import { authApi } from '../api/authApi';
+import { toast } from 'react-toastify';
 
 Register.propTypes = {
     
@@ -26,14 +28,30 @@ function Register(props) {
     const dispatch = useDispatch();
     
       const onFinish = (values) => {
-        form.validateFields().then((values) => {
-            console.log(values);
+        form.validateFields().then(async (values) => {
+          console.log(values);
+          try {
+            const res = await authApi.register(values)
+            if (!res.data.success) {
+              toast.error(res.data.message);
+              //reset form
+              return;
+            }
+            toast.success(res.data.message);
+            navigate('/login');
+          }
+          catch (err) {
+            const errorMessage =
+              err.response.data?.message ||
+              "Có lỗi xảy ra phía máy chủ, vui lòng thử lại!";
+            toast.error(errorMessage);
+          }
         }).catch((err) => {
             // form validation failed
             console.log(err)
         })
       };
-
+      
       const handleSignInClick = () => {
         navigate('/login')
       }

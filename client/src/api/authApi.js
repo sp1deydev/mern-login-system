@@ -2,15 +2,15 @@ import axiosClient from "./axiosClient";
 
 export const authApi = {
     login: (data) => {
-        return axiosClient.post('/login', data);
+        return axiosClient.post('/auth/login', data);
     },
     register: (data) => {
-        return axiosClient.post('/signup', data);
+        return axiosClient.post('/auth/signup', data);
     },
     getCurrentUser: () => {
-        return axiosClient.get('/get-user');
+        return axiosClient.get('/auth/');
     },
     logout: () => {
-        return axiosClient.get('/logout');
+        return axiosClient.get('/auth/logout');
     }
 }

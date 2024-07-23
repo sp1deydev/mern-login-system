@@ -1,9 +1,12 @@
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
-import { Avatar, Typography, List, Card, Input, message } from 'antd';
+import { Avatar, Typography, List, Card, Input, message, Button, Flex } from 'antd';
 import { useDispatch, useSelector } from 'react-redux';
 import { userSlice } from '../redux/userSlice';
 import { validateEmail } from '../helpers/emailRegEx';
+import { toast } from 'react-toastify';
+import { userApi } from '../api/userApi';
+import { EditOutlined, DeleteOutlined } from '@ant-design/icons';
 
 UserInfo.propTypes = {
     
@@ -23,7 +26,7 @@ function UserInfo(props) {
     setEditValue()
     setEditElement();
   }
-  const handleUpdate = () => {
+  const handleUpdate = async () => {
     if(!editValue) {
       messageApi.open({
         type: 'error',
@@ -41,12 +44,34 @@ function UserInfo(props) {
       });
       return;
     }
-      const updateUser = {...currentUser}
-      updateUser[editElement] = editValue;
-      dispatch(userSlice.actions.editUser(updateUser));
+    //api
+    const updateUser = {...currentUser}
+    updateUser[editElement] = editValue;
+    try {
+      const res = await userApi.updateUser(updateUser);
+      if (!res.data.success) {
+        toast.error(res.data.message);
+        return;
+      }
+      const { user } = res.data;
+      const currentUser = {
+        id: user._id,
+        username: user.username,
+        firstname: user.firstname,
+        lastname: user.lastname,
+        email: user.email,
+        createdAt: user.createdAt,
+      };
+      toast.success(res.data.message)
+      dispatch(userSlice.actions.editUser(currentUser));
       setEditValue()
       setEditElement();
+    }
+    catch (err) {
+      toast.error(err);
+    }
   }
+
   const handleEditFirstname = () => {
     setEditValue(currentUser.firstname)
     setEditElement("firstname");
@@ -59,15 +84,10 @@ function UserInfo(props) {
     setEditValue(currentUser.email)
     setEditElement("email");
   }
-  const handleEditPassword = () => {
-    setEditValue("")
-    setEditElement("password");
-  }
-
 
   return (
-    <div className="card-container">
-      <div className="sub-card-container">
+    <div className="form-container">
+      <div className="sub-info-container">
         {contextHolder} {/* message validate form */}
         <Card>
           <Card.Meta
@@ -179,41 +199,19 @@ function UserInfo(props) {
                 </Typography.Text>
               )}
             </List.Item>
-
-            <List.Item
-              actions={
-                editElement === "password"
-                  ? [
-                      <a key="list-loadmore-edit" onClick={handleCancelEdit}>
-                        Cancel
-                      </a>,
-                      <a key="list-loadmore-edit" onClick={handleUpdate}>
-                        Update
-                      </a>,
-                    ]
-                  : [
-                      <a key="list-loadmore-edit" onClick={handleEditPassword}>
-                        Edit
-                      </a>,
-                    ]
-              }
-            >
-              {editElement === "password" ? (
-                <Input
-                  placeholder="Enter value"
-                  name="title"
-                  value={editValue}
-                  onChange={(event) => handEditFormChange(event)}
-                  variant="borderless"
-                  autoFocus
-                />
-              ) : (
-                <Typography.Text>
-                  <i>Password:</i> {currentUser.password}
-                </Typography.Text>
-              )}
-            </List.Item>
           </List>
+          <Flex gap="small" justify='center' style={{marginTop: '16px'}}>
+            <Button type="primary" icon={<EditOutlined />}>
+              Change Password
+            </Button>
+            <Button type="primary" icon={<DeleteOutlined />} danger>
+              Delete Account
+            </Button>
+            {/* <Button icon={<EditOutlined />}>Change Password</Button>
+            <Button icon={<DeleteOutlined />} danger>
+              Delete Account
+            </Button> */}
+          </Flex>
         </Card>
       </div>
     </div>
