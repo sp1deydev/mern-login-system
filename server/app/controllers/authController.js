@@ -33,11 +33,9 @@ const authController = {
                     const user = new User(newUser);
                     user.save() 
                         .then(result => {
-                            const token = createToken(result._id);
-                            res.cookie('jwt_token', token, {httpOnly: true, maxAge: 3000 * 24 * 60 * 60});
-                            res.status(200).json(token)
+                            res.status(200).json({success: true, message: 'User saved successfully'})
                         })
-                        .catch(err => res.status(500).json(err))
+                        .catch(err => res.status(500).json({message: 'Error saving user from sever'}))
                 }
             })
             .catch(err => console.error(err))
@@ -56,7 +54,7 @@ const authController = {
                         res.header('Authorization', token);
                         res.cookie('jwt_token', token);
                         req.session.isAuth = true;
-                        res.status(200).json({ user, token, status: true });
+                        res.status(200).json({ user: result, token, success: true, message: "success" });
                     }
                     else {
                         res.json({message: 'incorrect password'});

@@ -46,12 +46,14 @@ app.use(
 //routers 
 const productsRoute = require('./app/routers/product');
 const authRoute = require('./app/routers/auth');
+const userRoute = require('./app/routers/user'); 
 
 
 
 
 app.use('/products', productsRoute);
-app.use(authRoute);
+app.use('/auth', authRoute);
+app.use('/users', userRoute);
 
 app.get('/', (req, res) => {
     // req.session.isAuth = true;
