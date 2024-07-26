@@ -6,8 +6,8 @@ const { checkLogin } = require('../middleware/auth');
 
 router.get('/', checkLogin, userController.getAllUsers);
 router.get('/:id', checkLogin, userController.getUserById);
-router.post('/change-password', checkLogin, userController.changePassword);
-router.put('/update-user', checkLogin, userController.updateUser);
-router.delete('/delete-user', checkLogin, userController.deleteUser)
+router.put('/change-password', checkLogin, userController.changePassword);
+router.put('/update', checkLogin, userController.updateUser);
+router.delete('/delete', checkLogin, userController.deleteUser)
 
 module.exports = router;

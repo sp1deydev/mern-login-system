@@ -53,7 +53,6 @@ const authController = {
                         const token = createToken(result._id);
                         res.header('Authorization', token);
                         res.cookie('jwt_token', token);
-                        req.session.isAuth = true;
                         res.status(200).json({ user: result, token, success: true, message: "success" });
                     }
                     else {

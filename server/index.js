@@ -6,10 +6,10 @@ const bodyParser = require('body-parser');
 const cookieParser = require('cookie-parser');
 const MongoDB_URI = require('./app/config/db.config');
 const _const = require('./app/config/constants');
-const session = require('express-session');
+// const session = require('express-session');
 require('dotenv').config();
 const cors = require('cors');
-const MongoDBSession = require('connect-mongodb-session')(session);
+// const MongoDBSession = require('connect-mongodb-session')(session);
 
 //config port
 const PORT = process.env.PORT || 3001;
@@ -21,10 +21,10 @@ mongoose.connect(mongodbURI)
     .catch((error) => console.error('MongoDB connection error:', error));
 
 //create session db
-const store = new MongoDBSession({
-    uri: mongodbURI,
-    collection: 'Sessions',
-})
+// const store = new MongoDBSession({
+//     uri: mongodbURI,
+//     collection: 'Sessions',
+// })
 
 
 app.use(cors());
@@ -33,15 +33,15 @@ app.use('/uploads',express.static('uploads'));
 app.use(morgan('dev'));
 app.use(bodyParser.urlencoded({extended: true}));
 app.use(bodyParser.json());
-app.use(
-    session({
-        secret: _const.SESSION_ACCESS_KEY,
-        resave: false,
-        saveUninitialized: false,
-        cookie: { maxAge: 10000 },
-        store: store,
-    })
-);
+// app.use(
+//     session({
+//         secret: _const.SESSION_ACCESS_KEY,
+//         resave: false,
+//         saveUninitialized: false,
+//         cookie: { maxAge: 10000 },
+//         store: store,
+//     })
+// );
 
 //routers 
 const productsRoute = require('./app/routers/product');
@@ -55,10 +55,6 @@ app.use('/products', productsRoute);
 app.use('/auth', authRoute);
 app.use('/users', userRoute);
 
-app.get('/', (req, res) => {
-    // req.session.isAuth = true;
-    res.send('hello world');
-})
 
 
 app.listen(PORT);

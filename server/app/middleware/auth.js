@@ -7,7 +7,6 @@ module.exports = {
         if (!token) {
             token = req.headers['authorization'].split(' ')[1];
         }
-        // const session = req.session.isAuth;
         if (token) {
             jwt.verify(token, _const.JWT_ACCESS_KEY, (err, decodedToken) => {
                 if(err) {
