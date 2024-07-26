@@ -17,6 +17,7 @@ import { userSlice } from '../redux/userSlice';
 import { useNavigate } from 'react-router-dom';
 import { handleLocalStorage } from '../utils/handleLocalStorage';
 import handleAuthToken from '../utils/handleAuthToken';
+import { toast } from 'react-toastify';
 
 HeaderBar.propTypes = {
     
@@ -55,34 +56,74 @@ function HeaderBar(props) {
         dispatch(userSlice.actions.removeCurrentUser());
         navigate('/home');
     }
+
+    //declare menuItems to by pass children warning
+    const menuItems = [
+        {
+            key: '1',
+            icon: <HomeOutlined />,
+            label: 'Home',
+            onClick: handleHome
+        },
+        {
+            key: '2',
+            icon: <InfoCircleOutlined />,
+            label: 'About',
+            onClick: handleAbout
+        },
+        {
+            key: '8',
+            icon: <ShoppingCartOutlined />,
+            label: 'Cart',
+            onClick: handleCart
+        },
+        {
+            key: '3',
+            icon: currentUser && !isEmpty ? <SmileOutlined /> : <FrownOutlined />,
+            label: currentUser && !isEmpty ? 'Username' : 'Guest',
+            children: currentUser && !isEmpty ? [
+                {
+                    key: '4',
+                    icon: <UserOutlined />,
+                    label: 'My Profile',
+                    onClick: handleProfile
+                },
+                {
+                    key: '5',
+                    icon: <LogoutOutlined />,
+                    label: 'Log Out',
+                    onClick: handleLogout
+                }
+            ] : [
+                {
+                    key: '6',
+                    icon: <LoginOutlined />,
+                    label: 'Login',
+                    onClick: handleLogin
+                },
+                {
+                    key: '7',
+                    icon: <UserAddOutlined />,
+                    label: 'Register',
+                    onClick: handleRegister
+                }
+            ]
+        }
+    ];
     return (
+        <div>
+
         <Header style={{ background: '#fff', marginBottom: "24px" }}>
             <div className="logo" style={{ width: '120px', height: '31px', background: '#2412', margin: '16px 28px 16px 0', float: 'left' }} />
 
-            <Menu 
-                theme="light" 
-                mode="horizontal" 
-                defaultSelectedKeys={['1']} 
-                style={{ display: 'flex', justifyContent: 'flex-end', alignItems: 'center' }} 
-            >
-                <Menu.Item key="1" icon={<HomeOutlined />}  onClick={handleHome}>Home</Menu.Item>
-                <Menu.Item key="2" icon={<InfoCircleOutlined />}  onClick={handleAbout}>About</Menu.Item>
-                <Menu.Item key="2" icon={<ShoppingCartOutlined />}  onClick={handleCart}>Cart</Menu.Item>
-                {/* user header */}
-                <SubMenu key="3" title={currentUser && !isEmpty ? 'Username' : 'Guest'} icon={currentUser && !isEmpty ? <SmileOutlined /> : <FrownOutlined />} popupOffset={[0, 10]}>
-                    {currentUser && !isEmpty ? 
-                    <Fragment>
-                        <Menu.Item key="4" icon={<UserOutlined />} onClick={handleProfile}>My Profile</Menu.Item>
-                        <Menu.Item key="5" icon={<LogoutOutlined />} onClick={handleLogout}>Log Out</Menu.Item>
-                    </Fragment> :
-                    <Fragment>
-                        <Menu.Item key="6" icon={<LoginOutlined />} onClick={handleLogin}>Login</Menu.Item>
-                        <Menu.Item key="7" icon={<UserAddOutlined />} onClick={handleRegister}>Register</Menu.Item>
-                    </Fragment>
-                    }
-                </SubMenu>
-            </Menu>
+            <Menu
+            theme="light"
+            mode="horizontal"
+            style={{ display: 'flex', justifyContent: 'flex-end', alignItems: 'center' }}
+            items={menuItems}
+        />
         </Header>
+        </div>
     );
 }
 

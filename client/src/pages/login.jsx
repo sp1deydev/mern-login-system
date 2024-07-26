@@ -49,7 +49,7 @@ function Login(props) {
             const res = await authApi.login(values);
             if (!res.data.success) {
               toast.error(res.data.message);
-              //reset password
+              form.resetFields();
               return;
             }
       
@@ -79,7 +79,6 @@ function Login(props) {
               error.response.data?.message ||
               'Có lỗi xảy ra phía máy chủ, vui lòng thử lại!';
             toast.error(errorMessage);
-            //reset password
           }
             //
             if (searchParams.get('redirect')) {
