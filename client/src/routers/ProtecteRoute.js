@@ -13,7 +13,7 @@ function ProtectedRoute(props) {
     const isLoading = useSelector((state)=> state.user.isLoading)
     const navigate = useNavigate();
     useEffect(()=> {
-        if(!currentUser ||  Object.keys(currentUser).length === 0 ) {
+        if(Object.keys(currentUser).length === 0 && !isLoading) {
             toast.info('Please login first');
             navigate(`/login?redirect=${window.location.pathname}`)
         }
@@ -21,7 +21,7 @@ function ProtectedRoute(props) {
         }
         //authorization 
         //
-    }, [currentUser, navigate]);
+    }, [currentUser, navigate, isLoading]);
     return <Fragment>{currentUser && props.children}</Fragment>;
 }
 

@@ -25,6 +25,7 @@ function UserInfo(props) {
 
   //delete account
   const onConfirmDeleteAccount = async () => {
+    dispatch(userSlice.actions.setIsLoading(true));
     try {
       const res = await userApi.deleteUser();
       if (!res.data.success) {
@@ -32,12 +33,14 @@ function UserInfo(props) {
         return;
       }
       dispatch(userSlice.actions.removeCurrentUser());
+      dispatch(userSlice.actions.setIsLoading(false));
       navigate('/home')
       toast.success(res.data.message);
-
+      
     } 
     catch (err) {
       toast.error(err);
+      dispatch(userSlice.actions.setIsLoading(false));
     }
   }
 
@@ -61,6 +64,7 @@ function UserInfo(props) {
       changePasswordForm.resetFields()
       return;
     }
+    dispatch(userSlice.actions.setIsLoading(true));
     try {
       const res = await userApi.changePassword({password: values.password, newPassword: values.newPassword});
       if (!res.data.success) {
@@ -68,6 +72,7 @@ function UserInfo(props) {
         return;
       }
       setIsModalChangePasswordOpen(false);
+      dispatch(userSlice.actions.setIsLoading(false));
       changePasswordForm.resetFields()
       toast.success(res.data.message)
     }
@@ -76,6 +81,7 @@ function UserInfo(props) {
       err.response.data?.message ||
       "Có lỗi xảy ra phía máy chủ, vui lòng thử lại!";
       toast.error(errorMessage);
+      dispatch(userSlice.actions.setIsLoading(false));
       changePasswordForm.resetFields()
     }
   }

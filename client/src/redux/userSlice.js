@@ -3,14 +3,8 @@ import { createSlice } from "@reduxjs/toolkit";
 export const userSlice = createSlice({
     name: 'user',
     initialState: {
-        isLoading: false,
-        currentUser: {
-            // "firstname": "test",
-            // "lastname": "test",
-            // "email": "thienkhanhrayless@gmail.com",
-            // "username": "test",
-            // "password": "test",
-        },
+        isLoading: true,
+        currentUser: {},
     },
     reducers: {
         setIsLoading: (state, action) => {
@@ -20,7 +14,7 @@ export const userSlice = createSlice({
             state.currentUser = action.payload
         },
         removeCurrentUser: (state, action) => {
-            state.currentUser = null
+            state.currentUser = {}
         },
         editUser: (state, action) => {
             state.currentUser = action.payload

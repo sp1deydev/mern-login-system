@@ -8,6 +8,7 @@ import { toast } from 'react-toastify';
 import { authApi } from '../api/authApi';
 import { handleLocalStorage } from '../utils/handleLocalStorage';
 import handleAuthToken from '../utils/handleAuthToken';
+import { handleSessionStorage } from '../utils/handleSessionStorage';
 
 Login.propTypes = {
     
@@ -28,6 +29,7 @@ const tailLayout = {
 function Login(props) {
     const navigate = useNavigate();
     const currentUser = useSelector((state)=> state.user.currentUser) || {};
+    const isLoading = useSelector((state)=> state.user.isLoading)
     const [form] = Form.useForm();
     const dispatch = useDispatch()
 
@@ -42,9 +44,10 @@ function Login(props) {
       navigate('/');
     }
   }, [currentUser, searchParams, navigate]);
-    
+
       const onFinish = (values) => {
         form.validateFields().then(async (values) => {
+          dispatch(userSlice.actions.setIsLoading(true))
           try {
             const res = await authApi.login(values);
             if (!res.data.success) {
@@ -52,7 +55,7 @@ function Login(props) {
               form.resetFields();
               return;
             }
-      
+            
             const { user } = res.data;
             const currentUser = {
               id: user._id,
@@ -67,8 +70,10 @@ function Login(props) {
             if(values.remember) {
               handleLocalStorage.set('access_token', res.data.token);
             }
+            handleSessionStorage.set('access_token', res.data.token);
             toast.success(res.data.message);
-      
+            dispatch(userSlice.actions.setIsLoading(false))
+            
             if (searchParams.get('redirect')) {
               navigate(searchParams.get('redirect'));
             } else {
@@ -76,9 +81,10 @@ function Login(props) {
             }
           } catch (error) {
             const errorMessage =
-              error.response.data?.message ||
-              'Có lỗi xảy ra phía máy chủ, vui lòng thử lại!';
+            error.response.data?.message ||
+            'Có lỗi xảy ra phía máy chủ, vui lòng thử lại!';
             toast.error(errorMessage);
+            dispatch(userSlice.actions.setIsLoading(false))
           }
             //
             if (searchParams.get('redirect')) {

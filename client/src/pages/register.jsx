@@ -29,6 +29,7 @@ function Register(props) {
     
       const onFinish = (values) => {
         form.validateFields().then(async (values) => {
+          dispatch(userSlice.actions.setIsLoading(true))
           console.log(values);
           try {
             const res = await authApi.register(values)
@@ -38,17 +39,19 @@ function Register(props) {
               return;
             }
             toast.success(res.data.message);
+            dispatch(userSlice.actions.setIsLoading(false))
             navigate('/login');
           }
           catch (err) {
             const errorMessage =
-              err.response.data?.message ||
-              "Có lỗi xảy ra phía máy chủ, vui lòng thử lại!";
+            err.response.data?.message ||
+            "Có lỗi xảy ra phía máy chủ, vui lòng thử lại!";
             toast.error(errorMessage);
           }
         }).catch((err) => {
-            // form validation failed
-            console.log(err)
+          // form validation failed
+          console.log(err)
+          dispatch(userSlice.actions.setIsLoading(false))
         })
       };
       

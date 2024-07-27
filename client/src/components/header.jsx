@@ -18,6 +18,7 @@ import { useNavigate } from 'react-router-dom';
 import { handleLocalStorage } from '../utils/handleLocalStorage';
 import handleAuthToken from '../utils/handleAuthToken';
 import { toast } from 'react-toastify';
+import { handleSessionStorage } from '../utils/handleSessionStorage';
 
 HeaderBar.propTypes = {
     
@@ -53,6 +54,7 @@ function HeaderBar(props) {
     const handleLogout = () => {
         handleAuthToken();
         handleLocalStorage.remove('access_token');
+        handleSessionStorage.remove('access_token');
         dispatch(userSlice.actions.removeCurrentUser());
         navigate('/home');
     }
