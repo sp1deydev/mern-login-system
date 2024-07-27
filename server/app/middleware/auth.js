@@ -10,7 +10,7 @@ module.exports = {
         if (token) {
             jwt.verify(token, _const.JWT_ACCESS_KEY, (err, decodedToken) => {
                 if(err) {
-                    console.error(err.message)
+                    res.status(401).json({message: err});
                 }
                 else {
                     console.log(decodedToken);
@@ -20,7 +20,7 @@ module.exports = {
             })
         }
         else {
-            res.json({message: 'access denied'});
+            res.status(401).json({message: 'access denied'});
         }
     },
 }

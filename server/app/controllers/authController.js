@@ -76,10 +76,10 @@ const authController = {
         User.findOne({_id: new mongoose.Types.ObjectId(req.userId)})
         .then(result => {
             if (result) {
-                    res.status(200).json({result, status: true });
+                    res.status(200).json({user: result, success: true, massage: "Get user successfully" });
                 }
             else {
-                res.json({message: "id notfound"})
+                res.json({ message: "id notfound", success: false})
             }
         })
         .catch(err => console.error(err))
