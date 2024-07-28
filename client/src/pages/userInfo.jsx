@@ -8,6 +8,7 @@ import { toast } from 'react-toastify';
 import { userApi } from '../api/userApi';
 import { EditOutlined, DeleteOutlined, QuestionCircleOutlined } from '@ant-design/icons';
 import { useNavigate } from 'react-router-dom';
+import { capitalizeFirstLetter } from '../helpers/toUpperCase';
 
 UserInfo.propTypes = {
     
@@ -165,7 +166,7 @@ function UserInfo(props) {
               <Avatar src="https://www.366icons.com/media/01/profile-avatar-account-icon-16699.png" />
             }
             title={currentUser.username || "test-username"}
-            description="Role: Administrator"
+            description={`Role: ${capitalizeFirstLetter(currentUser.role)}`}
           />
           <List>
             <List.Item

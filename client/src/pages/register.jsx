@@ -31,8 +31,10 @@ function Register(props) {
         form.validateFields().then(async (values) => {
           dispatch(userSlice.actions.setIsLoading(true))
           console.log(values);
+          let newUser = {...values}
+          newUser.role = "user";
           try {
-            const res = await authApi.register(values)
+            const res = await authApi.register(newUser)
             if (!res.data.success) {
               toast.error(res.data.message);
               //reset form

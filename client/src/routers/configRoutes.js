@@ -36,7 +36,7 @@ export const configRoutes = [
         path: '/userInfo/:userId',
         component: UserInfo,
         protected: true,
-        roleListPermission: ['admin', 'user'],
+        rolePermissions: ['admin', 'user'],
     },
     
 ]

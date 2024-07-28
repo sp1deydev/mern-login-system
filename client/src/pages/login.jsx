@@ -63,6 +63,7 @@ function Login(props) {
               firstname: user.firstname,
               lastname: user.lastname,
               email: user.email,
+              role: user.role,
               createdAt: user.createdAt,
             };
             dispatch(userSlice.actions.setCurrentUser(currentUser));

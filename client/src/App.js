@@ -36,6 +36,7 @@ function App() {
           firstname: user.firstname,
           lastname: user.lastname,
           email: user.email,
+          role: user.role,
           createdAt: user.createdAt,
         };
         dispatch(userSlice.actions.setCurrentUser(currentUser));
@@ -44,6 +45,8 @@ function App() {
         dispatch(userSlice.actions.removeCurrentUser());
         dispatch(userSlice.actions.setIsLoading(false));
         console.log("err",err)
+        console.log("err1",err.response)
+        toast.error(err.response.data.message || "Loi dang nhap");
       }
     };
     autoLogin();

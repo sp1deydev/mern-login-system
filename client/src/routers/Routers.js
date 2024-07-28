@@ -13,10 +13,11 @@ function Routers(props) {
     return (
         <Routes>
             {routes.map((route, index) => {
+                console.log(route)
                 let Component = route.component;
                 if(route.protected) {
                     Component = (
-                        <ProtectedRoute>
+                        <ProtectedRoute rolePermissions={route.rolePermissions}>
                             <route.component/>
                         </ProtectedRoute>
                     )
