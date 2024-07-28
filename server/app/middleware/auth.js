@@ -8,13 +8,14 @@ module.exports = {
             token = req.headers['authorization'].split(' ')[1];
         }
         if (token) {
-            jwt.verify(token, _const.JWT_ACCESS_KEY, (err, decodedToken) => {
+            jwt.verify(token, _const.JWT_ACCESS_KEY, (err, result) => {
                 if(err) {
                     res.status(401).json({message: err});
                 }
                 else {
-                    console.log(decodedToken);
-                    req.userId = decodedToken;
+                    console.log(result);
+                    req.userId = result.id;
+                    req.role = result.role;
                     next();
                 }
             })

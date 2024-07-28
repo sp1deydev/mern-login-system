@@ -6,10 +6,10 @@ const _const = require('../config/constants');
 const mongoose = require('mongoose');
 
 
-const createToken = (id) => {
-    return jwt.sign({id}, _const.JWT_ACCESS_KEY, {
-        expiresIn: 3 * 24 * 60 * 60,
-    })
+const createToken = (id, role) => {
+    return jwt.sign({ id, role }, _const.JWT_ACCESS_KEY, {
+      expiresIn: 3 * 24 * 60 * 60,
+    });
 }
 
 
@@ -23,6 +23,7 @@ const authController = {
           firstname: req.body.firstname,
           lastname: req.body.lastname,
           email: req.body.email,
+          role: req.body.role,
         };
         User.findOne({username: req.body.username})
             .then(result => {
@@ -35,7 +36,11 @@ const authController = {
                         .then(result => {
                             res.status(200).json({success: true, message: 'User saved successfully'})
                         })
-                        .catch(err => res.status(500).json({message: 'Error saving user from sever'}))
+                        .catch(err => {
+                            console.log(err)
+                            res.status(500).json({message: 'Error saving user from sever'})
+                        }
+                        )
                 }
             })
             .catch(err => console.error(err))
@@ -50,7 +55,7 @@ const authController = {
                 if (result) {
                     const auth = bcrypt.compareSync(user.password, result.password)
                     if(auth) {
-                        const token = createToken(result._id);
+                        const token = createToken(result._id, result.role);
                         res.header('Authorization', token);
                         res.cookie('jwt_token', token);
                         res.status(200).json({ user: result, token, success: true, message: "success" });
